@@ -43,11 +43,57 @@
   --color-section: var(--section);
 }
 
-/* Force dark app shell */
+/* Light theme (default) */
 :root {
   --radius: 0.5rem;
 
-  /* Deep slate base */
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.2 0.02 260);
+
+  --sidebar: oklch(0.985 0.003 260);
+  --sidebar-foreground: oklch(0.35 0.02 260);
+  --sidebar-border: oklch(0.92 0.005 260);
+  --sidebar-accent: oklch(0.95 0.006 260);
+
+  --panel: oklch(0.985 0.003 260);
+  --panel-foreground: oklch(0.25 0.02 260);
+
+  --surface: oklch(0.965 0.005 260);
+  --surface-hover: oklch(0.94 0.006 260);
+
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.2 0.02 260);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.2 0.02 260);
+
+  --primary: oklch(0.55 0.14 220);
+  --primary-foreground: oklch(0.99 0 0);
+
+  --secondary: oklch(0.96 0.005 260);
+  --secondary-foreground: oklch(0.25 0.02 260);
+
+  --muted: oklch(0.96 0.005 260);
+  --muted-foreground: oklch(0.5 0.015 260);
+
+  --accent: oklch(0.95 0.006 260);
+  --accent-foreground: oklch(0.25 0.02 260);
+
+  --destructive: oklch(0.58 0.22 25);
+  --destructive-foreground: oklch(0.99 0 0);
+
+  --border: oklch(0.92 0.005 260);
+  --input: oklch(0.92 0.005 260);
+  --ring: oklch(0.6 0.14 220);
+
+  --section: oklch(0.5 0.02 260);
+  --lesson: oklch(0.55 0.14 220);
+  --lesson-soft: oklch(0.55 0.14 220 / 0.12);
+  --test: oklch(0.6 0.14 60);
+  --test-soft: oklch(0.6 0.14 60 / 0.14);
+}
+
+/* Dark theme */
+.dark {
   --background: oklch(0.17 0.012 260);
   --foreground: oklch(0.94 0.006 260);
 
@@ -56,11 +102,9 @@
   --sidebar-border: oklch(0.26 0.01 260);
   --sidebar-accent: oklch(0.235 0.014 260);
 
-  /* Left tree panel */
   --panel: oklch(0.195 0.012 260);
   --panel-foreground: oklch(0.9 0.006 260);
 
-  /* Editor surface */
   --surface: oklch(0.215 0.012 260);
   --surface-hover: oklch(0.255 0.014 260);
 
@@ -88,11 +132,10 @@
   --input: oklch(0.28 0.012 260);
   --ring: oklch(0.78 0.14 205);
 
-  /* Semantic accents */
   --section: oklch(0.72 0.03 260);
-  --lesson: oklch(0.78 0.14 205);            /* cyan */
+  --lesson: oklch(0.78 0.14 205);
   --lesson-soft: oklch(0.78 0.14 205 / 0.14);
-  --test: oklch(0.78 0.14 70);               /* amber */
+  --test: oklch(0.78 0.14 70);
   --test-soft: oklch(0.78 0.14 70 / 0.14);
 }
 
