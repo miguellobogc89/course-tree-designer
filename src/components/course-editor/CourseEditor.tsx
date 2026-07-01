@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   BookOpen,
   ChevronRight,
@@ -11,10 +11,12 @@ import {
   Inbox,
   LayoutGrid,
   MoreHorizontal,
+  Moon,
   Pencil,
   Plus,
   Search,
   Settings,
+  Sun,
   Trash2,
   Copy,
   ChevronLeft,
