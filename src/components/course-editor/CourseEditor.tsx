@@ -139,6 +139,15 @@ function AppSidebar() {
 // ---------- Topbar ----------
 
 function Topbar() {
+  const [dark, setDark] = useState(() =>
+    typeof document !== "undefined" && document.documentElement.classList.contains("dark"),
+  );
+  useEffect(() => {
+    const root = document.documentElement;
+    if (dark) root.classList.add("dark");
+    else root.classList.remove("dark");
+  }, [dark]);
+
   return (
     <header className="flex h-12 shrink-0 items-center gap-3 border-b border-border bg-sidebar/60 px-4">
       <button className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
@@ -151,6 +160,20 @@ function Topbar() {
         Borrador
       </span>
       <div className="ml-auto flex items-center gap-2">
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <button
+              onClick={() => setDark((d) => !d)}
+              aria-label={dark ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
+              className="flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-surface hover:text-foreground"
+            >
+              {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            </button>
+          </TooltipTrigger>
+          <TooltipContent side="bottom">
+            {dark ? "Modo claro" : "Modo oscuro"}
+          </TooltipContent>
+        </Tooltip>
         <Button variant="ghost" size="sm" className="h-8 gap-1.5 text-muted-foreground hover:text-foreground">
           <Eye className="h-3.5 w-3.5" />
           Previsualizar
