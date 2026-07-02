@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
+import { Link } from "@tanstack/react-router";
 import {
   BookOpen,
   ChevronRight,
@@ -6,17 +7,10 @@ import {
   FlaskConical,
   Folder,
   FolderOpen,
-  GraduationCap,
-  Home,
-  Inbox,
-  LayoutGrid,
   MoreHorizontal,
-  Moon,
   Pencil,
   Plus,
   Search,
-  Settings,
-  Sun,
   Trash2,
   Copy,
   ChevronLeft,
@@ -34,8 +28,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { AppShell } from "@/components/shell/AppShell";
 import { cn } from "@/lib/utils";
+
 
 // ---------- Types ----------
 
@@ -86,106 +81,48 @@ const initialTree: TreeNode[] = [
 
 export function CourseEditor() {
   return (
-    <TooltipProvider delayDuration={200}>
-      <div className="flex h-screen w-full overflow-hidden bg-background text-foreground">
-        <AppSidebar />
-        <div className="flex min-w-0 flex-1 flex-col">
-          <Topbar />
-          <CourseWorkspace />
-        </div>
-      </div>
-    </TooltipProvider>
+    <AppShell topbar={<EditorTopbar />}>
+      <CourseWorkspace />
+    </AppShell>
   );
 }
 
-// ---------- App sidebar ----------
-
-function AppSidebar() {
-  const items = [
-    { icon: Home, label: "Inicio" },
-    { icon: GraduationCap, label: "Cursos", active: true },
-    { icon: LayoutGrid, label: "Plantillas" },
-    { icon: Inbox, label: "Bandeja" },
-  ];
+function EditorTopbar() {
   return (
-    <aside className="flex h-full w-14 shrink-0 flex-col items-center justify-between border-r border-sidebar-border bg-sidebar py-3">
-      <div className="flex flex-col items-center gap-1">
-        <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-md bg-lesson/15 text-lesson">
-          <BookOpen className="h-4 w-4" />
-        </div>
-        {items.map((it) => (
-          <Tooltip key={it.label}>
-            <TooltipTrigger asChild>
-              <button
-                className={cn(
-                  "flex h-9 w-9 items-center justify-center rounded-md text-sidebar-foreground/70 transition-colors hover:bg-sidebar-accent hover:text-sidebar-foreground",
-                  it.active && "bg-sidebar-accent text-sidebar-foreground",
-                )}
-              >
-                <it.icon className="h-[18px] w-[18px]" />
-              </button>
-            </TooltipTrigger>
-            <TooltipContent side="right">{it.label}</TooltipContent>
-          </Tooltip>
-        ))}
-      </div>
-      <button className="flex h-9 w-9 items-center justify-center rounded-md text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground">
-        <Settings className="h-[18px] w-[18px]" />
-      </button>
-    </aside>
-  );
-}
-
-// ---------- Topbar ----------
-
-function Topbar() {
-  const [dark, setDark] = useState(() =>
-    typeof document !== "undefined" && document.documentElement.classList.contains("dark"),
-  );
-  useEffect(() => {
-    const root = document.documentElement;
-    if (dark) root.classList.add("dark");
-    else root.classList.remove("dark");
-  }, [dark]);
-
-  return (
-    <header className="flex h-12 shrink-0 items-center gap-3 border-b border-border bg-sidebar/60 px-4">
-      <button className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
+    <>
+      <Link
+        to="/cursos"
+        className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
+      >
         <ChevronLeft className="h-4 w-4" />
         Cursos
-      </button>
+      </Link>
       <span className="text-muted-foreground/50">/</span>
       <span className="text-sm font-medium text-foreground">Power Query</span>
       <span className="ml-2 rounded-md border border-border bg-surface px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
         Borrador
       </span>
       <div className="ml-auto flex items-center gap-2">
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <button
-              onClick={() => setDark((d) => !d)}
-              aria-label={dark ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
-              className="flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-surface hover:text-foreground"
-            >
-              {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-            </button>
-          </TooltipTrigger>
-          <TooltipContent side="bottom">
-            {dark ? "Modo claro" : "Modo oscuro"}
-          </TooltipContent>
-        </Tooltip>
-        <Button variant="ghost" size="sm" className="h-8 gap-1.5 text-muted-foreground hover:text-foreground">
+        <Button
+          variant="ghost"
+          size="sm"
+          className="h-8 gap-1.5 text-muted-foreground hover:text-foreground"
+        >
           <Eye className="h-3.5 w-3.5" />
           Previsualizar
         </Button>
-        <Button size="sm" className="h-8 gap-1.5 bg-lesson text-primary-foreground hover:bg-lesson/90">
+        <Button
+          size="sm"
+          className="h-8 gap-1.5 bg-lesson text-primary-foreground hover:bg-lesson/90"
+        >
           <Save className="h-3.5 w-3.5" />
           Guardar
         </Button>
       </div>
-    </header>
+    </>
   );
 }
+
 
 // ---------- Workspace: tree + editor ----------
 
