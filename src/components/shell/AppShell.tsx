@@ -38,6 +38,7 @@ function AppSidebar() {
   const items = [
     { icon: Home, label: "Inicio", to: "/" },
     { icon: GraduationCap, label: "Cursos", to: "/cursos" },
+    { icon: Brain, label: "Knowledge", to: "/knowledge" },
     { icon: LayoutGrid, label: "Plantillas", to: "/plantillas" },
     { icon: Inbox, label: "Bandeja", to: "/bandeja" },
   ];
