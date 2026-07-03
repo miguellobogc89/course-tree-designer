@@ -9,10 +9,16 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as KnowledgeRouteImport } from './routes/knowledge'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CursosIndexRouteImport } from './routes/cursos.index'
 import { Route as CursosEditorRouteImport } from './routes/cursos.editor'
 
+const KnowledgeRoute = KnowledgeRouteImport.update({
+  id: '/knowledge',
+  path: '/knowledge',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -31,36 +37,47 @@ const CursosEditorRoute = CursosEditorRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/knowledge': typeof KnowledgeRoute
   '/cursos/editor': typeof CursosEditorRoute
   '/cursos/': typeof CursosIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/knowledge': typeof KnowledgeRoute
   '/cursos/editor': typeof CursosEditorRoute
   '/cursos': typeof CursosIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/knowledge': typeof KnowledgeRoute
   '/cursos/editor': typeof CursosEditorRoute
   '/cursos/': typeof CursosIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/cursos/editor' | '/cursos/'
+  fullPaths: '/' | '/knowledge' | '/cursos/editor' | '/cursos/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/cursos/editor' | '/cursos'
-  id: '__root__' | '/' | '/cursos/editor' | '/cursos/'
+  to: '/' | '/knowledge' | '/cursos/editor' | '/cursos'
+  id: '__root__' | '/' | '/knowledge' | '/cursos/editor' | '/cursos/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  KnowledgeRoute: typeof KnowledgeRoute
   CursosEditorRoute: typeof CursosEditorRoute
   CursosIndexRoute: typeof CursosIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/knowledge': {
+      id: '/knowledge'
+      path: '/knowledge'
+      fullPath: '/knowledge'
+      preLoaderRoute: typeof KnowledgeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -87,6 +104,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  KnowledgeRoute: KnowledgeRoute,
   CursosEditorRoute: CursosEditorRoute,
   CursosIndexRoute: CursosIndexRoute,
 }
