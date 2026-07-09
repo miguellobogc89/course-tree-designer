@@ -42,6 +42,7 @@ function AppSidebar() {
     { icon: Brain, label: "Knowledge", to: "/knowledge" },
     { icon: LayoutGrid, label: "Plantillas", to: "/plantillas" },
     { icon: Inbox, label: "Bandeja", to: "/bandeja" },
+    { icon: UserCircle2, label: "Mi espacio", to: "/mi-espacio" },
   ];
   const isActive = (to: string) =>
     to === "/" ? pathname === "/" : pathname === to || pathname.startsWith(to + "/");
