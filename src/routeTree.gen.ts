@@ -9,11 +9,17 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as MiEspacioRouteImport } from './routes/mi-espacio'
 import { Route as KnowledgeRouteImport } from './routes/knowledge'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CursosIndexRouteImport } from './routes/cursos.index'
 import { Route as CursosEditorRouteImport } from './routes/cursos.editor'
 
+const MiEspacioRoute = MiEspacioRouteImport.update({
+  id: '/mi-espacio',
+  path: '/mi-espacio',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const KnowledgeRoute = KnowledgeRouteImport.update({
   id: '/knowledge',
   path: '/knowledge',
@@ -38,12 +44,14 @@ const CursosEditorRoute = CursosEditorRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/knowledge': typeof KnowledgeRoute
+  '/mi-espacio': typeof MiEspacioRoute
   '/cursos/editor': typeof CursosEditorRoute
   '/cursos/': typeof CursosIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/knowledge': typeof KnowledgeRoute
+  '/mi-espacio': typeof MiEspacioRoute
   '/cursos/editor': typeof CursosEditorRoute
   '/cursos': typeof CursosIndexRoute
 }
@@ -51,26 +59,41 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/knowledge': typeof KnowledgeRoute
+  '/mi-espacio': typeof MiEspacioRoute
   '/cursos/editor': typeof CursosEditorRoute
   '/cursos/': typeof CursosIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/knowledge' | '/cursos/editor' | '/cursos/'
+  fullPaths: '/' | '/knowledge' | '/mi-espacio' | '/cursos/editor' | '/cursos/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/knowledge' | '/cursos/editor' | '/cursos'
-  id: '__root__' | '/' | '/knowledge' | '/cursos/editor' | '/cursos/'
+  to: '/' | '/knowledge' | '/mi-espacio' | '/cursos/editor' | '/cursos'
+  id:
+    | '__root__'
+    | '/'
+    | '/knowledge'
+    | '/mi-espacio'
+    | '/cursos/editor'
+    | '/cursos/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   KnowledgeRoute: typeof KnowledgeRoute
+  MiEspacioRoute: typeof MiEspacioRoute
   CursosEditorRoute: typeof CursosEditorRoute
   CursosIndexRoute: typeof CursosIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/mi-espacio': {
+      id: '/mi-espacio'
+      path: '/mi-espacio'
+      fullPath: '/mi-espacio'
+      preLoaderRoute: typeof MiEspacioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/knowledge': {
       id: '/knowledge'
       path: '/knowledge'
@@ -105,19 +128,10 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   KnowledgeRoute: KnowledgeRoute,
+  MiEspacioRoute: MiEspacioRoute,
   CursosEditorRoute: CursosEditorRoute,
   CursosIndexRoute: CursosIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
