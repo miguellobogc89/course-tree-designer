@@ -16,6 +16,7 @@ import {
   Layers,
   Link2,
   Lightbulb,
+  Lock,
   MoreHorizontal,
   Network,
   Plus,
@@ -23,6 +24,7 @@ import {
   Shield,
   ShieldCheck,
   Sparkles,
+  Users,
   UserCircle2,
   Workflow,
 } from "lucide-react";
@@ -280,23 +282,56 @@ function ContentHeader({
   onTab: (t: "knowledge" | "documents") => void;
 }) {
   return (
-    <div className="border-b border-border bg-panel/40 px-8 pt-6">
-      <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-        <span>Nueva biblioteca</span>
-        <ChevronRight className="h-3 w-3" />
-        <span>Revenue Sharing</span>
-        <ChevronRight className="h-3 w-3" />
-        <span className="text-foreground">{name}</span>
-      </div>
-      <div className="mt-3 flex items-end justify-between">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight text-foreground">{name}</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Conocimiento sintetizado a partir de los documentos de esta carpeta.
-          </p>
+    <div className="border-b border-border bg-panel/40">
+      {/* Row 1 — breadcrumb + meta */}
+      <div className="flex items-center justify-between gap-4 px-8 pt-3">
+        <div className="flex min-w-0 items-center gap-1.5 text-xs text-muted-foreground">
+          <span className="hover:text-foreground cursor-pointer">Nueva biblioteca</span>
+          <ChevronRight className="h-3 w-3 shrink-0" />
+          <span className="hover:text-foreground cursor-pointer">Revenue Sharing</span>
+          <ChevronRight className="h-3 w-3 shrink-0" />
+          <span className="truncate text-foreground">{name}</span>
+        </div>
+        <div className="flex shrink-0 items-center gap-3 text-[11px] text-muted-foreground">
+          <span>Actualizado hace 2 h · por Miguel Lobo</span>
+          <button className="flex h-6 w-6 items-center justify-center rounded-md text-muted-foreground hover:bg-surface hover:text-foreground">
+            <MoreHorizontal className="h-3.5 w-3.5" />
+          </button>
         </div>
       </div>
-      <div className="mt-5 flex items-center gap-1">
+
+      {/* Row 2 — title + chips + inline metrics */}
+      <div className="flex flex-wrap items-center gap-x-6 gap-y-3 px-8 pt-2">
+        <div className="flex min-w-0 items-center gap-2.5">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-lesson-soft text-lesson">
+            <Lock className="h-4 w-4" />
+          </div>
+          <h1 className="truncate text-xl font-semibold tracking-tight text-foreground">
+            {name}
+          </h1>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-1.5">
+          <Chip>Procedimiento</Chip>
+          <Chip icon={Lock}>Privado</Chip>
+          <Chip icon={Users} tone="lesson">
+            Compartido · 1 equipo
+          </Chip>
+          <Chip icon={ShieldCheck} tone="lesson">
+            Confianza alta
+          </Chip>
+        </div>
+
+        <div className="ml-auto flex items-center gap-2">
+          <Metric label="Cobertura" value="95%" tone="lesson" />
+          <Metric label="Fusionados" value="6" />
+          <Metric label="Referencias" value="8" />
+          <Metric label="Contradicciones" value="1" tone="test" />
+        </div>
+      </div>
+
+      {/* Row 3 — tabs */}
+      <div className="mt-3 flex items-center gap-1 px-8">
         <TabBtn active={tab === "knowledge"} onClick={() => onTab("knowledge")} icon={Sparkles}>
           Knowledge
           <span className="ml-1.5 rounded bg-lesson-soft px-1 text-[9px] font-medium uppercase text-lesson">
@@ -312,82 +347,62 @@ function ContentHeader({
   );
 }
 
-function TabBtn({
-  active,
-  onClick,
-  icon: Icon,
+function Chip({
   children,
+  icon: Icon,
+  tone,
 }: {
-  active: boolean;
-  onClick: () => void;
-  icon: ComponentType<{ className?: string }>;
   children: React.ReactNode;
+  icon?: ComponentType<{ className?: string }>;
+  tone?: "lesson";
 }) {
   return (
-    <button
-      onClick={onClick}
+    <span
       className={cn(
-        "relative flex items-center gap-1.5 px-3 py-2 text-xs font-medium transition-colors",
-        active
-          ? "text-foreground"
-          : "text-muted-foreground hover:text-foreground",
+        "inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px]",
+        tone === "lesson"
+          ? "border-lesson/30 bg-lesson-soft text-lesson"
+          : "border-border bg-panel text-muted-foreground",
       )}
     >
-      <Icon className="h-3.5 w-3.5" />
+      {Icon && <Icon className="h-3 w-3" />}
       {children}
-      {active && (
-        <span className="absolute inset-x-2 -bottom-px h-0.5 rounded-full bg-lesson" />
-      )}
-    </button>
+    </span>
   );
 }
 
-// ---------- Knowledge dashboard ----------
-
-function KnowledgeDashboard({ name }: { name: string }) {
+function Metric({
+  label,
+  value,
+  tone,
+}: {
+  label: string;
+  value: string;
+  tone?: "lesson" | "test";
+}) {
   return (
-    <div className="mx-auto max-w-5xl px-8 py-10">
-      {/* Executive summary */}
-      <div className="mb-8 flex items-start gap-4 rounded-2xl border border-lesson/20 bg-gradient-to-br from-lesson-soft/60 via-panel to-panel p-6">
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-lesson text-primary-foreground">
-          <Sparkles className="h-5 w-5" />
-        </div>
-        <div className="min-w-0 flex-1">
-          <p className="text-[11px] font-semibold uppercase tracking-wider text-lesson">
-            Resumen ejecutivo
-          </p>
-          <p className="mt-1 text-base leading-relaxed text-foreground">
-            La IA ha analizado <strong>14 documentos</strong> de la carpeta{" "}
-            <strong>{name}</strong> y ha sintetizado el conocimiento clave del área
-            de <em>Revenue Sharing</em>. Se han identificado 6 procesos operativos,
-            32 conceptos y 4 áreas relacionadas.
-          </p>
-          <div className="mt-3 flex flex-wrap items-center gap-2 text-[11px] text-muted-foreground">
-            <span className="inline-flex items-center gap-1 rounded-md border border-border bg-panel px-2 py-0.5">
-              <ShieldCheck className="h-3 w-3 text-lesson" /> Confianza alta
-            </span>
-            <span className="inline-flex items-center gap-1 rounded-md border border-border bg-panel px-2 py-0.5">
-              Actualizado hace 2 h
-            </span>
-            <span className="inline-flex items-center gap-1 rounded-md border border-border bg-panel px-2 py-0.5">
-              Modelo · CRS-Reason v2
-            </span>
-          </div>
-        </div>
-      </div>
+    <div className="flex items-baseline gap-1.5 rounded-md border border-border bg-panel px-2.5 py-1">
+      <span
+        className={cn(
+          "text-sm font-semibold tabular-nums",
+          tone === "lesson" && "text-lesson",
+          tone === "test" && "text-test",
+          !tone && "text-foreground",
+        )}
+      >
+        {value}
+      </span>
+      <span className="text-[10px] uppercase tracking-wide text-muted-foreground">{label}</span>
+    </div>
+  );
+}
 
-      {/* Stats grid */}
-      <div className="mb-10 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-6">
-        <Stat icon={FileText} label="Documentos" value="14" tone="lesson" />
-        <Stat icon={Lightbulb} label="Conceptos" value="32" tone="lesson" />
-        <Stat icon={Workflow} label="Procesos" value="6" tone="lesson" />
-        <Stat icon={Network} label="Relaciones" value="18" tone="section" />
-        <Stat icon={AlertTriangle} label="Contradicciones" value="2" tone="test" />
-        <Stat icon={UserCircle2} label="Roles" value="5" tone="section" />
-      </div>
-
+function KnowledgeDashboard({ name: _name }: { name: string }) {
+  return (
+    <div className="mx-auto max-w-5xl px-8 py-8">
       {/* Sections */}
       <div className="space-y-3">
+
         <Section
           icon={Workflow}
           title="Procesos detectados"
@@ -434,32 +449,29 @@ function KnowledgeDashboard({ name }: { name: string }) {
   );
 }
 
-function Stat({
+function TabBtn({
+  active,
+  onClick,
   icon: Icon,
-  label,
-  value,
-  tone,
+  children,
 }: {
+  active: boolean;
+  onClick: () => void;
   icon: ComponentType<{ className?: string }>;
-  label: string;
-  value: string;
-  tone: "lesson" | "test" | "section";
+  children: React.ReactNode;
 }) {
   return (
-    <div className="rounded-xl border border-border bg-panel p-3">
-      <div
-        className={cn(
-          "mb-2 flex h-6 w-6 items-center justify-center rounded-md",
-          tone === "lesson" && "bg-lesson-soft text-lesson",
-          tone === "test" && "bg-test-soft text-test",
-          tone === "section" && "bg-surface text-muted-foreground",
-        )}
-      >
-        <Icon className="h-3.5 w-3.5" />
-      </div>
-      <p className="text-lg font-semibold tracking-tight text-foreground">{value}</p>
-      <p className="text-[11px] text-muted-foreground">{label}</p>
-    </div>
+    <button
+      onClick={onClick}
+      className={cn(
+        "relative flex items-center gap-1.5 px-3 py-2 text-xs font-medium transition-colors",
+        active ? "text-foreground" : "text-muted-foreground hover:text-foreground",
+      )}
+    >
+      <Icon className="h-3.5 w-3.5" />
+      {children}
+      {active && <span className="absolute inset-x-2 -bottom-px h-0.5 rounded-full bg-lesson" />}
+    </button>
   );
 }
 
