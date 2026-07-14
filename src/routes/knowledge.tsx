@@ -16,6 +16,7 @@ import {
   Layers,
   Link2,
   Lightbulb,
+  Lock,
   MoreHorizontal,
   Network,
   Plus,
@@ -23,6 +24,7 @@ import {
   Shield,
   ShieldCheck,
   Sparkles,
+  Users,
   UserCircle2,
   Workflow,
 } from "lucide-react";
