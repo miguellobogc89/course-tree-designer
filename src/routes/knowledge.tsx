@@ -449,32 +449,29 @@ function KnowledgeDashboard({ name: _name }: { name: string }) {
   );
 }
 
-function Stat({
+function TabBtn({
+  active,
+  onClick,
   icon: Icon,
-  label,
-  value,
-  tone,
+  children,
 }: {
+  active: boolean;
+  onClick: () => void;
   icon: ComponentType<{ className?: string }>;
-  label: string;
-  value: string;
-  tone: "lesson" | "test" | "section";
+  children: React.ReactNode;
 }) {
   return (
-    <div className="rounded-xl border border-border bg-panel p-3">
-      <div
-        className={cn(
-          "mb-2 flex h-6 w-6 items-center justify-center rounded-md",
-          tone === "lesson" && "bg-lesson-soft text-lesson",
-          tone === "test" && "bg-test-soft text-test",
-          tone === "section" && "bg-surface text-muted-foreground",
-        )}
-      >
-        <Icon className="h-3.5 w-3.5" />
-      </div>
-      <p className="text-lg font-semibold tracking-tight text-foreground">{value}</p>
-      <p className="text-[11px] text-muted-foreground">{label}</p>
-    </div>
+    <button
+      onClick={onClick}
+      className={cn(
+        "relative flex items-center gap-1.5 px-3 py-2 text-xs font-medium transition-colors",
+        active ? "text-foreground" : "text-muted-foreground hover:text-foreground",
+      )}
+    >
+      <Icon className="h-3.5 w-3.5" />
+      {children}
+      {active && <span className="absolute inset-x-2 -bottom-px h-0.5 rounded-full bg-lesson" />}
+    </button>
   );
 }
 
