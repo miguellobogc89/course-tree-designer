@@ -397,8 +397,12 @@ function Metric({
   );
 }
 
+function KnowledgeDashboard({ name: _name }: { name: string }) {
+  return (
+    <div className="mx-auto max-w-5xl px-8 py-8">
       {/* Sections */}
       <div className="space-y-3">
+
         <Section
           icon={Workflow}
           title="Procesos detectados"
