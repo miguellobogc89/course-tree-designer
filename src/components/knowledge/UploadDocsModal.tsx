@@ -13,7 +13,12 @@ import {
   UploadCloud,
   X,
 } from "lucide-react";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -157,14 +162,14 @@ export function UploadDocsModal({
             <FolderOpen className="h-5 w-5" />
           </div>
           <div className="min-w-0 flex-1">
-            <h2 className="text-base font-semibold tracking-tight text-foreground">
+            <DialogTitle className="text-base font-semibold tracking-tight text-foreground">
               Incorporar documentación
-            </h2>
-            <p className="mt-0.5 text-sm text-muted-foreground">
+            </DialogTitle>
+            <DialogDescription className="mt-0.5 text-sm text-muted-foreground">
               Destino preferente:{" "}
               <span className="font-medium text-foreground">{folderName}</span>. La IA podrá
               proponer una estructura mejor.
-            </p>
+            </DialogDescription>
           </div>
         </div>
 

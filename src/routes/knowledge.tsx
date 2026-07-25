@@ -32,6 +32,7 @@ import { AppShell } from "@/components/shell/AppShell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { UploadDocsModal } from "@/components/knowledge/UploadDocsModal";
 
 export const Route = createFileRoute("/knowledge")({
   head: () => ({
@@ -94,10 +95,16 @@ const VIEWS = [
 function KnowledgePage() {
   const [selected, setSelected] = useState<string>("2023");
   const [tab, setTab] = useState<"knowledge" | "documents">("knowledge");
+  const [uploadOpen, setUploadOpen] = useState(false);
   const selectedName = useMemo(() => findName(TREE, selected) ?? "2023", [selected]);
 
   return (
-    <AppShell topbar={<KnowledgeTopbar name={selectedName} />}>
+    <AppShell topbar={<KnowledgeTopbar name={selectedName} onUpload={() => setUploadOpen(true)} />}>
+      <UploadDocsModal
+        open={uploadOpen}
+        onOpenChange={setUploadOpen}
+        folderName={selectedName}
+      />
       <div className="flex min-h-0 flex-1">
         <Explorer selected={selected} onSelect={setSelected} />
         <main className="flex min-w-0 flex-1 flex-col overflow-hidden bg-background">
@@ -106,7 +113,7 @@ function KnowledgePage() {
             {tab === "knowledge" ? (
               <KnowledgeDashboard name={selectedName} />
             ) : (
-              <DocumentsGrid />
+              <DocumentsGrid onUpload={() => setUploadOpen(true)} />
             )}
           </div>
         </main>
@@ -115,7 +122,7 @@ function KnowledgePage() {
   );
 }
 
-function KnowledgeTopbar({ name }: { name: string }) {
+function KnowledgeTopbar({ name, onUpload }: { name: string; onUpload: () => void }) {
   return (
     <>
       <BookOpen className="h-4 w-4 text-lesson" />
@@ -126,7 +133,12 @@ function KnowledgeTopbar({ name }: { name: string }) {
         <Sparkles className="h-3 w-3" /> Sintetizado por IA
       </span>
       <div className="ml-auto flex items-center gap-2">
-        <Button variant="outline" size="sm" className="h-8 gap-1.5 border-border bg-panel text-xs">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={onUpload}
+          className="h-8 gap-1.5 border-border bg-panel text-xs"
+        >
           <Plus className="h-3.5 w-3.5" />
           Añadir documento
         </Button>
@@ -808,7 +820,7 @@ function SourcesList() {
 
 // ---------- Documents tab (existing-style grid) ----------
 
-function DocumentsGrid() {
+function DocumentsGrid({ onUpload }: { onUpload: () => void }) {
   const folders = [
     { name: "Contratos", items: 4 },
     { name: "Reportes trimestrales", items: 6 },
@@ -832,7 +844,7 @@ function DocumentsGrid() {
             className="h-8 border-border bg-panel pl-8 text-xs"
           />
         </div>
-        <Button size="sm" className="h-8 gap-1.5 bg-lesson text-primary-foreground hover:bg-lesson/90">
+        <Button size="sm" onClick={onUpload} className="h-8 gap-1.5 bg-lesson text-primary-foreground hover:bg-lesson/90">
           <Plus className="h-3.5 w-3.5" />
           Subir documento
         </Button>
