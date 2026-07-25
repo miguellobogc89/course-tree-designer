@@ -149,7 +149,6 @@ export function UploadDocsModal({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
-        showCloseButton={false}
         className="max-w-3xl overflow-hidden rounded-2xl border-border bg-panel p-0 shadow-2xl"
       >
         {/* Header */}
@@ -167,13 +166,6 @@ export function UploadDocsModal({
               proponer una estructura mejor.
             </p>
           </div>
-          <button
-            onClick={() => onOpenChange(false)}
-            aria-label="Cerrar"
-            className="rounded-lg p-1.5 text-muted-foreground transition-colors hover:bg-surface hover:text-foreground"
-          >
-            <X className="h-4 w-4" />
-          </button>
         </div>
 
         {/* Stepper */}
