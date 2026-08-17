@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as MiEspacioRouteImport } from './routes/mi-espacio'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as LandingRouteImport } from './routes/landing'
 import { Route as KnowledgeRouteImport } from './routes/knowledge'
 import { Route as IndexRouteImport } from './routes/index'
@@ -19,6 +20,11 @@ import { Route as CursosEditorRouteImport } from './routes/cursos.editor'
 const MiEspacioRoute = MiEspacioRouteImport.update({
   id: '/mi-espacio',
   path: '/mi-espacio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LandingRoute = LandingRouteImport.update({
@@ -51,6 +57,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/knowledge': typeof KnowledgeRoute
   '/landing': typeof LandingRoute
+  '/login': typeof LoginRoute
   '/mi-espacio': typeof MiEspacioRoute
   '/cursos/editor': typeof CursosEditorRoute
   '/cursos/': typeof CursosIndexRoute
@@ -59,6 +66,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/knowledge': typeof KnowledgeRoute
   '/landing': typeof LandingRoute
+  '/login': typeof LoginRoute
   '/mi-espacio': typeof MiEspacioRoute
   '/cursos/editor': typeof CursosEditorRoute
   '/cursos': typeof CursosIndexRoute
@@ -68,6 +76,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/knowledge': typeof KnowledgeRoute
   '/landing': typeof LandingRoute
+  '/login': typeof LoginRoute
   '/mi-espacio': typeof MiEspacioRoute
   '/cursos/editor': typeof CursosEditorRoute
   '/cursos/': typeof CursosIndexRoute
@@ -78,6 +87,7 @@ export interface FileRouteTypes {
     | '/'
     | '/knowledge'
     | '/landing'
+    | '/login'
     | '/mi-espacio'
     | '/cursos/editor'
     | '/cursos/'
@@ -86,6 +96,7 @@ export interface FileRouteTypes {
     | '/'
     | '/knowledge'
     | '/landing'
+    | '/login'
     | '/mi-espacio'
     | '/cursos/editor'
     | '/cursos'
@@ -94,6 +105,7 @@ export interface FileRouteTypes {
     | '/'
     | '/knowledge'
     | '/landing'
+    | '/login'
     | '/mi-espacio'
     | '/cursos/editor'
     | '/cursos/'
@@ -103,6 +115,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   KnowledgeRoute: typeof KnowledgeRoute
   LandingRoute: typeof LandingRoute
+  LoginRoute: typeof LoginRoute
   MiEspacioRoute: typeof MiEspacioRoute
   CursosEditorRoute: typeof CursosEditorRoute
   CursosIndexRoute: typeof CursosIndexRoute
@@ -115,6 +128,13 @@ declare module '@tanstack/react-router' {
       path: '/mi-espacio'
       fullPath: '/mi-espacio'
       preLoaderRoute: typeof MiEspacioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/landing': {
@@ -159,6 +179,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   KnowledgeRoute: KnowledgeRoute,
   LandingRoute: LandingRoute,
+  LoginRoute: LoginRoute,
   MiEspacioRoute: MiEspacioRoute,
   CursosEditorRoute: CursosEditorRoute,
   CursosIndexRoute: CursosIndexRoute,
