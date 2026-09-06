@@ -8,7 +8,6 @@ import {
   GraduationCap,
   LayoutGrid,
   MessageSquareText,
-  Plus,
   Sparkles,
   Users,
 } from "lucide-react";
