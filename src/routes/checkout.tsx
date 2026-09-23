@@ -36,6 +36,13 @@ export const Route = createFileRoute("/checkout")({
   component: CheckoutPage,
 });
 
+/* ---------- palette (scoped, Stripe-style vivid blue) ---------- */
+const BRAND = "#2563EB";
+const BRAND_DARK = "#1D4ED8";
+const BRAND_SOFT = "#EFF4FF";
+const BRAND_BORDER = "#C7DBFE";
+const INK = "#0B1220";
+
 const includedFeatures = [
   { icon: Brain, label: "Knowledge" },
   { icon: Sparkles, label: "Asistente IA" },
@@ -65,15 +72,18 @@ function CheckoutPage() {
         <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-6">
           <Link
             to="/landing"
-            className="flex items-center gap-2 text-sm font-semibold text-foreground transition-colors hover:text-primary"
+            className="flex items-center gap-2 text-sm font-semibold text-foreground transition-colors hover:opacity-80"
           >
-            <span className="flex h-7 w-7 items-center justify-center rounded-md bg-primary text-primary-foreground">
+            <span
+              className="flex h-7 w-7 items-center justify-center rounded-md text-white"
+              style={{ backgroundColor: BRAND }}
+            >
               <span className="text-xs font-bold">C</span>
             </span>
             CRS LAB
           </Link>
-          <div className="flex items-center gap-2 text-xs text-muted-foreground">
-            <Lock className="h-3.5 w-3.5 text-primary" />
+          <div className="flex items-center gap-2 text-xs font-medium" style={{ color: BRAND }}>
+            <Lock className="h-3.5 w-3.5" />
             Pago cifrado · Stripe
           </div>
         </div>
@@ -91,7 +101,10 @@ function CheckoutPage() {
           </Link>
           <div className="mt-3 flex flex-wrap items-end justify-between gap-3">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wider text-primary">
+              <p
+                className="text-xs font-bold uppercase tracking-wider"
+                style={{ color: BRAND }}
+              >
                 Finalizar contratación
               </p>
               <h1 className="mt-0.5 text-2xl font-bold tracking-tight text-foreground">
@@ -108,15 +121,21 @@ function CheckoutPage() {
           {/* LEFT — steps */}
           <div className="flex flex-col gap-5">
             {/* Plan selected */}
-            <Section step={1} title="Plan seleccionado">
+            <Section step={1} title="Plan seleccionado" brand={BRAND}>
               <div className="flex items-start gap-4">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <div
+                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg"
+                  style={{ backgroundColor: BRAND_SOFT, color: BRAND }}
+                >
                   <Building2 className="h-5 w-5" />
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2">
                     <h3 className="text-base font-semibold text-foreground">Team</h3>
-                    <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[11px] font-semibold text-primary">
+                    <span
+                      className="rounded-full px-2 py-0.5 text-[11px] font-semibold text-white"
+                      style={{ backgroundColor: BRAND }}
+                    >
                       Más popular
                     </span>
                   </div>
@@ -127,27 +146,32 @@ function CheckoutPage() {
               </div>
 
               {/* Cycle toggle */}
-              <div className="mt-4 inline-flex rounded-lg border border-border bg-muted/40 p-0.5">
-                {(["annual", "monthly"] as const).map((c) => (
-                  <button
-                    key={c}
-                    onClick={() => setCycle(c)}
-                    className={cn(
-                      "rounded-md px-3 py-1.5 text-xs font-medium transition-colors",
-                      cycle === c
-                        ? "bg-background text-foreground shadow-sm"
-                        : "text-muted-foreground hover:text-foreground",
-                    )}
-                  >
-                    {c === "annual" ? "Anual · −15%" : "Mensual"}
-                  </button>
-                ))}
+              <div
+                className="mt-4 inline-flex rounded-lg p-0.5"
+                style={{ backgroundColor: BRAND_SOFT }}
+              >
+                {(["annual", "monthly"] as const).map((c) => {
+                  const active = cycle === c;
+                  return (
+                    <button
+                      key={c}
+                      onClick={() => setCycle(c)}
+                      className={cn(
+                        "rounded-md px-3 py-1.5 text-xs font-semibold transition-colors",
+                        active ? "text-white shadow-sm" : "hover:text-foreground",
+                      )}
+                      style={active ? { backgroundColor: BRAND } : { color: "#475569" }}
+                    >
+                      {c === "annual" ? "Anual · −15%" : "Mensual"}
+                    </button>
+                  );
+                })}
               </div>
 
               <dl className="mt-4 grid grid-cols-3 gap-3 border-t border-border pt-4">
                 {recentWork.map((d) => (
                   <div key={d.label}>
-                    <dt className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
+                    <dt className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
                       {d.label}
                     </dt>
                     <dd className="mt-0.5 text-sm font-semibold text-foreground">{d.value}</dd>
@@ -158,9 +182,12 @@ function CheckoutPage() {
             </Section>
 
             {/* Billing data */}
-            <Section step={2} title="Datos de facturación">
+            <Section step={2} title="Datos de facturación" brand={BRAND}>
               <div className="flex items-start gap-4">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <div
+                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg"
+                  style={{ backgroundColor: BRAND_SOFT, color: BRAND }}
+                >
                   <Building2 className="h-5 w-5" />
                 </div>
                 <div className="min-w-0 flex-1">
@@ -169,9 +196,12 @@ function CheckoutPage() {
                   </p>
                 </div>
               </div>
-              <div className="mt-4 rounded-lg border border-dashed border-primary/40 bg-primary/5 p-4">
+              <div
+                className="mt-4 rounded-lg border p-4"
+                style={{ borderColor: BRAND_BORDER, backgroundColor: BRAND_SOFT }}
+              >
                 <div className="flex items-center gap-2">
-                  <ShieldCheck className="h-4 w-4 text-primary" />
+                  <ShieldCheck className="h-4 w-4" style={{ color: BRAND }} />
                   <h4 className="text-sm font-semibold text-foreground">Facturación empresarial</h4>
                 </div>
                 <p className="mt-1 text-xs text-muted-foreground">
@@ -181,9 +211,12 @@ function CheckoutPage() {
             </Section>
 
             {/* Payment */}
-            <Section step={3} title="Pago seguro">
+            <Section step={3} title="Pago seguro" brand={BRAND}>
               <div className="flex items-start gap-4">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <div
+                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg"
+                  style={{ backgroundColor: BRAND_SOFT, color: BRAND }}
+                >
                   <CreditCard className="h-5 w-5" />
                 </div>
                 <div className="min-w-0 flex-1">
@@ -195,20 +228,23 @@ function CheckoutPage() {
               {/* Mock card preview */}
               <div className="mt-4 grid grid-cols-[1fr_120px] gap-3">
                 <div className="rounded-lg border border-border bg-muted/30 px-3 py-2.5">
-                  <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
+                  <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
                     Titular
                   </p>
                   <p className="mt-0.5 text-sm font-medium text-foreground">—</p>
                 </div>
                 <div className="rounded-lg border border-border bg-muted/30 px-3 py-2.5">
-                  <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
+                  <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
                     Vencimiento
                   </p>
                   <p className="mt-0.5 text-sm font-medium text-foreground">MM / AA</p>
                 </div>
               </div>
-              <p className="mt-2 flex items-center gap-1.5 text-xs text-muted-foreground">
-                <Lock className="h-3.5 w-3.5 text-primary" />
+              <p
+                className="mt-2 flex items-center gap-1.5 text-xs font-medium"
+                style={{ color: BRAND }}
+              >
+                <Lock className="h-3.5 w-3.5" />
                 Conexión cifrada de extremo a extremo.
               </p>
             </Section>
@@ -216,10 +252,15 @@ function CheckoutPage() {
 
           {/* RIGHT — order summary (sticky) */}
           <aside className="lg:sticky lg:top-20 lg:self-start">
-            <div className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
-              <div className="border-b border-border bg-foreground px-5 py-4 text-background">
+            <div className="overflow-hidden rounded-xl border border-border bg-card shadow-lg">
+              <div
+                className="px-5 py-4 text-white"
+                style={{
+                  background: `linear-gradient(135deg, ${BRAND_DARK}, ${BRAND})`,
+                }}
+              >
                 <h2 className="text-sm font-semibold uppercase tracking-wider">Resumen</h2>
-                <p className="mt-0.5 text-xs text-background/60">Plan Team · Facturación anual</p>
+                <p className="mt-0.5 text-xs text-white/70">Plan Team · Facturación anual</p>
               </div>
 
               <div className="p-5">
@@ -231,10 +272,13 @@ function CheckoutPage() {
                 </div>
 
                 {/* Savings highlight */}
-                <div className="mt-3 flex items-center gap-2 rounded-lg bg-primary/10 px-3 py-2.5">
-                  <Zap className="h-4 w-4 text-primary" />
+                <div
+                  className="mt-3 flex items-center gap-2 rounded-lg px-3 py-2.5"
+                  style={{ backgroundColor: BRAND_SOFT, border: `1px solid ${BRAND_BORDER}` }}
+                >
+                  <Zap className="h-4 w-4" style={{ color: BRAND }} />
                   <div className="flex-1">
-                    <p className="text-sm font-semibold text-foreground">
+                    <p className="text-sm font-semibold" style={{ color: BRAND_DARK }}>
                       Ahorras {savings.toLocaleString("es-ES")} € al año
                     </p>
                     <p className="text-[11px] text-muted-foreground">
@@ -268,7 +312,10 @@ function CheckoutPage() {
                   </p>
                 </div>
 
-                <button className="mt-5 flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground shadow-sm transition-all hover:bg-primary/90 hover:shadow-md">
+                <button
+                  className="mt-5 flex w-full items-center justify-center gap-2 rounded-lg px-4 py-3 text-sm font-semibold text-white shadow-md transition-all hover:shadow-lg"
+                  style={{ backgroundColor: BRAND }}
+                >
                   <Lock className="h-4 w-4" />
                   Continuar al pago
                 </button>
@@ -286,7 +333,7 @@ function CheckoutPage() {
                   <ul className="grid grid-cols-2 gap-1.5">
                     {includedFeatures.map((f) => (
                       <li key={f.label} className="flex items-center gap-1.5 text-xs text-foreground">
-                        <Check className="h-3.5 w-3.5 text-primary" />
+                        <Check className="h-3.5 w-3.5" style={{ color: BRAND }} />
                         {f.label}
                       </li>
                     ))}
@@ -295,9 +342,12 @@ function CheckoutPage() {
               </div>
             </div>
 
-            <div className="mt-3 flex items-center gap-2 rounded-lg bg-muted/40 px-3 py-2.5">
-              <CheckCircle2 className="h-4 w-4 text-primary" />
-              <p className="text-[11px] text-muted-foreground">
+            <div
+              className="mt-3 flex items-center gap-2 rounded-lg px-3 py-2.5"
+              style={{ backgroundColor: BRAND_SOFT }}
+            >
+              <CheckCircle2 className="h-4 w-4" style={{ color: BRAND }} />
+              <p className="text-[11px] font-medium" style={{ color: BRAND_DARK }}>
                 Garantía de reembolso de 14 días. Sin permanencia.
               </p>
             </div>
@@ -318,16 +368,24 @@ function CheckoutPage() {
 function Section({
   step,
   title,
+  brand,
   children,
 }: {
   step: number;
   title: string;
+  brand: string;
   children: React.ReactNode;
 }) {
   return (
-    <section className="rounded-xl border border-border bg-card shadow-sm">
-      <div className="flex items-center gap-3 border-b border-border px-5 py-3">
-        <span className="flex h-6 w-6 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">
+    <section className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
+      <div
+        className="flex items-center gap-3 border-b border-border px-5 py-3"
+        style={{ backgroundColor: "#F8FAFC" }}
+      >
+        <span
+          className="flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold text-white"
+          style={{ backgroundColor: brand }}
+        >
           {step}
         </span>
         <h2 className="text-sm font-semibold text-foreground">{title}</h2>
